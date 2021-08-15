@@ -35,7 +35,8 @@ def run_training(args, train_data):
         # Save every epoch
         if not args.tpu_num_cores:
             save_steps = len(train_data) 
-            save_steps = int(save_steps / torch.cuda.device_count())
+            if torch.cuda.is_available():
+                save_steps = int(save_steps / torch.cuda.device_count())
             save_steps = int(save_steps / args.grad_acc_steps)
             save_steps = int(save_steps / args.batch_size_per_replica)
         else:
@@ -103,8 +104,8 @@ def run_training(args, train_data):
         args=training_args,
         train_dataset=train_data,
     )
-    trainer.remove_callback(transformers.integrations.TensorBoardCallback)
-    trainer.add_callback(CustomTensorBoardCallback())
+    # trainer.remove_callback(transformers.integrations.TensorBoardCallback)
+    # trainer.add_callback(CustomTensorBoardCallback())
 
     print(f"STARTING TRAINING. save_steps={save_steps}")
     trainer.train()
