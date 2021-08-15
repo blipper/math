@@ -403,6 +403,8 @@ class MATHDataset(BaseMathDataset):
             question = _clean_numbers(question)
             answer   = _clean_numbers(answer)
         answer_final = last_boxed_only_string(answer)
+        if self.blind:
+            answer_final = ""
 
         assert not answer.isspace()
 
