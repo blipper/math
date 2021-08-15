@@ -140,7 +140,8 @@ def run_eval(args):
         model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
         print(f"Successfully loaded model from {args.load}")
 
-    model = model.eval() if torch.cuda.is_available() else model.cuda() 
+    model = model.eval() 
+    model = model.cuda() 
 
     loss_moving_average = 0
 
