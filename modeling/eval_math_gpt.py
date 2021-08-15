@@ -140,10 +140,7 @@ def run_eval(args):
         model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
         print(f"Successfully loaded model from {args.load}")
 
-    model = model.eval()
-    if torch.cuda.is_available():
-        print("Using CUDA")
-        model = model.cuda()
+    model = model.eval() if torch.cuda.is_available() else model.cuda() 
 
     loss_moving_average = 0
 
@@ -174,8 +171,7 @@ def run_eval(args):
             assert len(fnames) == 1
             fnames_list.append(fnames[0])
             prob_level, prob_type = get_level_type(fnames[0])
-            if torch.cuda.is_available():
-                batch = dict_to_gpu(batch, device_id=0)
+            batch = dict_to_gpu(batch, device_id=0)
 
             output_ids = model.generate(
                 batch['input_ids'], 
