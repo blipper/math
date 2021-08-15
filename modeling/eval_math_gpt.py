@@ -142,6 +142,7 @@ def run_eval(args):
 
     model = model.eval()
     if torch.cuda.is_available():
+        print("Using CUDA")
         model = model.cuda()
 
     loss_moving_average = 0
@@ -350,7 +351,8 @@ def get_dataset(args):
                     max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
                     mode='gpt2-eval',
                     mode_answer=args.math_mode,
-                    peek_fraction=args.peek_fraction
+                    peek_fraction=args.peek_fraction,
+                    blind=args.blind,
                 )
             )
 
