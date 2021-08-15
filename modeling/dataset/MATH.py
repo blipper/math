@@ -44,7 +44,7 @@ class MATHDataset(BaseMathDataset):
                 solution = ""
             else:
                 solution = problem_data['solution']
-            curr_sample_raw = (problem_data['problem'], self.blind, fname)
+            curr_sample_raw = (problem_data['problem'], solution, fname)
             #curr_sample_raw = (problem_data['problem'], problem_data['solution'], fname)
             for e in curr_sample_raw:
                 assert e
