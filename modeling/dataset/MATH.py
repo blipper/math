@@ -40,6 +40,7 @@ class MATHDataset(BaseMathDataset):
                 except Exception as e:
                     print(f"Error loading JSON from {fname}", e)
                     raise e
+            solution = None
             if self.blind:
                 solution = ""
             else:
