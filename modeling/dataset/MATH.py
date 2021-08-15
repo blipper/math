@@ -392,10 +392,10 @@ class MATHDataset(BaseMathDataset):
         if sample == None:
             return None
 
-        if self.mode_answer == 'eval_peeking':
-            return self.clean_filter_sample_peeking_gpt_eval(sample)
-        elif self.mode_answer == 'eval_nopack_padding':
-            return self.clean_filter_sample_nopackpadding_gpt_eval(sample)
+        # if self.mode_answer == 'eval_peeking':
+        #     return self.clean_filter_sample_peeking_gpt_eval(sample)
+        # elif self.mode_answer == 'eval_nopack_padding':
+        #     return self.clean_filter_sample_nopackpadding_gpt_eval(sample)
 
         question, answer = sample
 
@@ -410,16 +410,16 @@ class MATHDataset(BaseMathDataset):
 
         question_ids = torch.LongTensor(self.tokenizer.encode("\nQUESTION:\n" + question, verbose=False))
         sep_ids      = torch.LongTensor(self.tokenizer.encode("\FULL SOLUTION:\n", verbose=False))
-        answer_final_ids   = torch.LongTensor(self.tokenizer.encode(answer_final, verbose=False)) # Loss only counted on these tokens.
+ #       answer_final_ids   = torch.LongTensor(self.tokenizer.encode(answer_final, verbose=False)) # Loss only counted on these tokens.
 
         input_ids = torch.cat([
             question_ids, 
             sep_ids, 
         ], dim=0)
 
-        label_ids = torch.cat([
-            answer_final_ids.clone()
-        ], dim=0)
+        # label_ids = torch.cat([
+        #     answer_final_ids.clone()
+        # ], dim=0)
         
         # Stop early if this Q,A pair is too long
         if input_ids.shape[0] + label_ids.shape[0] > self.max_tokens:
@@ -429,6 +429,6 @@ class MATHDataset(BaseMathDataset):
         
         return {
             'input_ids_list' : input_ids.tolist(),
-            'label_ids_list' : label_ids.tolist()
+            # 'label_ids_list' : label_ids.tolist()
         }
 
