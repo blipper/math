@@ -20,6 +20,9 @@ import json
 import time
 import transformers
 import numpy as np
+import csv
+import pandas as pd
+
 
 from tqdm import tqdm
 
@@ -311,6 +314,8 @@ def run_eval(args):
         f.write("Skipped = {}".format(skipped))
     
     print()
+    generate_csv(outputs)
+
     
 def get_model_output(context, full_output, tokenizer):
     """
@@ -351,6 +356,20 @@ def get_dataset(args):
     
     train_data = torch.utils.data.ConcatDataset(all_datasets)
     return train_data
+
+def try_float(s):
+    try:
+        return float(s)
+    except ValueError:
+        print(f"Not a float {s}")
+        return 0.0
+
+def generate_csv(outputs):
+    fieldnames = ['Id', 'Predicted']
+    outputs_real = [try_float(s) for s in outputs]
+    rows = {'Id': range(len(outputs_real)), 'Predicted': outputs_real}
+    dataframe = pd.DataFrame(rows, columns=fieldnames)
+    dataframe.to_csv('predicted.csv', index=False)
 
 
 if __name__ == "__main__":
