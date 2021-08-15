@@ -339,6 +339,7 @@ def get_dataset(args):
                     tokenizer=None, # Set in run_training(), not in dataset creation 
                     max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
                     mode='gpt2-eval', 
+                    blind=args.blind,
                 )
             )
         else:
@@ -385,6 +386,7 @@ if __name__ == "__main__":
     parser.add_argument('--math-dataroot', default=None, type=str)
     parser.add_argument('--math-mode', default='gpt2-eval', type=str)
     parser.add_argument('--peek-fraction', type=float, default=1.0)
+    parser.add_argument('--blind', type=bool, default=False)
     
     # Others
     parser.add_argument('--workers', default=4, type=int)

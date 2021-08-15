@@ -40,7 +40,12 @@ class MATHDataset(BaseMathDataset):
                 except Exception as e:
                     print(f"Error loading JSON from {fname}", e)
                     raise e
-            curr_sample_raw = (problem_data['problem'], problem_data['solution'], fname)
+            if self.blind:
+                solution = ""
+            else:
+                solution = problem_data['solution']
+            curr_sample_raw = (problem_data['problem'], self.blind, fname)
+            #curr_sample_raw = (problem_data['problem'], problem_data['solution'], fname)
             for e in curr_sample_raw:
                 assert e
             samples_raw.append(curr_sample_raw)
