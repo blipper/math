@@ -46,8 +46,9 @@ class MATHDataset(BaseMathDataset):
                 solution = problem_data['solution']
             curr_sample_raw = (problem_data['problem'], solution, fname)
             #curr_sample_raw = (problem_data['problem'], problem_data['solution'], fname)
-            for e in curr_sample_raw:
-                assert e
+            for i,e in enumerate(curr_sample_raw):
+                if i!=1 or not self.blind:
+                    assert e
             samples_raw.append(curr_sample_raw)
         
         manager = Manager()
