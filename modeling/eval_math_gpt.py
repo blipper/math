@@ -271,47 +271,48 @@ def run_eval(args):
 
     subjects = ['Prealgebra', 'Algebra', 'Number Theory', 'Counting & Probability', 'Geometry', 'Intermediate Algebra', 'Precalculus']
 
-    print(f"Average of mean_max_probs_correct = {sum(mean_max_probs_correct)}/{len(mean_max_probs_correct)} = ", sum(mean_max_probs_correct)/len(mean_max_probs_correct))
-    print(f"Average of mean_max_probs_wrong   = {sum(mean_max_probs_wrong)}/{len(mean_max_probs_wrong)} = ", sum(mean_max_probs_wrong)/len(mean_max_probs_wrong))
+    if not args.blind:
+        print(f"Average of mean_max_probs_correct = {sum(mean_max_probs_correct)}/{len(mean_max_probs_correct)} = ", sum(mean_max_probs_correct)/len(mean_max_probs_correct))
+        print(f"Average of mean_max_probs_wrong   = {sum(mean_max_probs_wrong)}/{len(mean_max_probs_wrong)} = ", sum(mean_max_probs_wrong)/len(mean_max_probs_wrong))
 
-    # now save outputs and answers
-    with open(f"outputs_answers_Temp2e-1_{args.arch}.txt", "w+") as f:
-        for k, (output, answer, prob_type, prob_level, fname) in enumerate(zip(outputs, answers, types, levels, fnames_list)):
-            f.write("{} TYPE: {} | LEVEL: {} | OUTPUT: {} | ANSWER: {} | FNAME: {}\n".format(k, prob_type, prob_level, output, answer, fname))
+        # now save outputs and answers
+        with open(f"outputs_answers_Temp2e-1_{args.arch}.txt", "w+") as f:
+            for k, (output, answer, prob_type, prob_level, fname) in enumerate(zip(outputs, answers, types, levels, fnames_list)):
+                f.write("{} TYPE: {} | LEVEL: {} | OUTPUT: {} | ANSWER: {} | FNAME: {}\n".format(k, prob_type, prob_level, output, answer, fname))
 
-        # print(cors)
-        for prob_type in subjects:
-            for prob_level in [1, 2, 3, 4, 5]:
-                if (prob_level, prob_type) in cors:
-                    cors_list = cors[(prob_level, prob_type)]
-                    print("{} Level {} Accuracy = {}/{} = {:.3f}".format(prob_type, prob_level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
-                    f.write("{} Level {} Accuracy = {}/{} = {:.3f}\n".format(prob_type, prob_level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
+            # print(cors)
+            for prob_type in subjects:
+                for prob_level in [1, 2, 3, 4, 5]:
+                    if (prob_level, prob_type) in cors:
+                        cors_list = cors[(prob_level, prob_type)]
+                        print("{} Level {} Accuracy = {}/{} = {:.3f}".format(prob_type, prob_level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
+                        f.write("{} Level {} Accuracy = {}/{} = {:.3f}\n".format(prob_type, prob_level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
 
-        print("#####################")
-        f.write("#####################\n")
-        # also get accuracies for each 
-        for level in sorted(level_cors):
-            cors_list = level_cors[level]
-            print("Level {} Accuracy = {}/{} = {:.3f}".format(level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
-            f.write("Level {} Accuracy = {}/{} = {:.3f}\n".format(level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
-        print("#####################")
-        f.write("#####################\n")
+            print("#####################")
+            f.write("#####################\n")
+            # also get accuracies for each 
+            for level in sorted(level_cors):
+                cors_list = level_cors[level]
+                print("Level {} Accuracy = {}/{} = {:.3f}".format(level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
+                f.write("Level {} Accuracy = {}/{} = {:.3f}\n".format(level, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
+            print("#####################")
+            f.write("#####################\n")
 
-        for subject in subjects:
-            # for subject in sorted(subject_cors):
-            if subject in subject_cors:
-                cors_list = subject_cors[subject]
-                print("{} Accuracy = {}/{} = {:.3f}".format(subject, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
-                f.write("{} Accuracy = {}/{} = {:.3f}\n".format(subject, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
-        print("#####################")
-        f.write("#####################\n")
+            for subject in subjects:
+                # for subject in sorted(subject_cors):
+                if subject in subject_cors:
+                    cors_list = subject_cors[subject]
+                    print("{} Accuracy = {}/{} = {:.3f}".format(subject, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
+                    f.write("{} Accuracy = {}/{} = {:.3f}\n".format(subject, np.sum(cors_list), len(cors_list), np.mean(cors_list)))
+            print("#####################")
+            f.write("#####################\n")
+            
+            print("Overall Accuracy = {}/{} = {:.3f}".format(correct, total, correct/total))
+            print("Skipped = {}".format(skipped))
+            f.write("Overall Accuracy = {}/{} = {:.3f}\n".format(correct, total, correct/total))
+            f.write("Skipped = {}".format(skipped))
         
-        print("Overall Accuracy = {}/{} = {:.3f}".format(correct, total, correct/total))
-        print("Skipped = {}".format(skipped))
-        f.write("Overall Accuracy = {}/{} = {:.3f}\n".format(correct, total, correct/total))
-        f.write("Skipped = {}".format(skipped))
-    
-    print()
+        print()
     generate_csv(outputs)
 
     
