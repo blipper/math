@@ -101,7 +101,8 @@ class BaseMathDataset(torch.utils.data.Dataset):
 
             # Add curr_sample to the current inputs and labels
             curr_input_ids.extend(curr_sample['input_ids_list'])
-            curr_label_ids.extend(curr_sample['label_ids_list'])
+            if not self.blind:
+                curr_label_ids.extend(curr_sample['label_ids_list'])
             curr_fnames.append(fname)
             
             num_samples += 1
