@@ -439,10 +439,10 @@ class MATHDataset(BaseMathDataset):
         # ], dim=0)
         
         # Stop early if this Q,A pair is too long
-        if input_ids.shape[0] + label_ids.shape[0] > self.max_tokens:
-            # Print reason for skipping
-            # print(f"Skipping due to input_ids being too big. input_ids.shape[0] = {input_ids.shape[0]}.")
-            return None
+        # if input_ids.shape[0] + label_ids.shape[0] > self.max_tokens:
+        #     # Print reason for skipping
+        #     # print(f"Skipping due to input_ids being too big. input_ids.shape[0] = {input_ids.shape[0]}.")
+        #     return None
         
         return {
             'input_ids_list' : input_ids.tolist(),
