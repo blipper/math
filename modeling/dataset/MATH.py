@@ -19,6 +19,13 @@ from multiprocessing import Manager
 from torch.multiprocessing import Pool
 from dataset.base_math_dataset import BaseMathDataset
 
+def alphanum_key(s):    
+    """ Turn a string into a list of string and number chunks.
+        "z23a" -> ["z", 23, "a"]
+    """
+    return [ tryint(c) for c in re.split('([0-9]+)', s) ]
+
+
 class MATHDataset(BaseMathDataset):
     """Configurable Math Dataset.
     """
@@ -31,7 +38,8 @@ class MATHDataset(BaseMathDataset):
         Set up self.samples by loading from the dataroot
         """
 
-        all_filenames = glob.glob(self.dataroot)
+        #all_filenames = glob.glob(self.dataroot)
+        all_filenames = sorted(glob.glob(self.dataroot), key=alphanum_key)
         samples_raw = []
         for fname in all_filenames:
             with open(fname, 'r') as fp:

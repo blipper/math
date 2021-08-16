@@ -362,7 +362,10 @@ def try_float(s):
         return float(s)
     except ValueError:
         print(f"Not a float {s}")
-        return 0.0
+        return -9999
+    except TypeError:
+        print(f"Empty type")
+        return -9999
 
 def generate_csv(outputs):
     fieldnames = ['Id', 'Predicted']
