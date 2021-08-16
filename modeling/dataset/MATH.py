@@ -20,6 +20,14 @@ from multiprocessing import Manager
 from torch.multiprocessing import Pool
 from dataset.base_math_dataset import BaseMathDataset
 
+# from dataset.base_math_dataset import BaseMathDataset
+def tryint(s):
+    try:
+        return int(s)
+    except:
+        return s
+
+
 def alphanum_key(s):    
     """ Turn a string into a list of string and number chunks.
         "z23a" -> ["z", 23, "a"]
