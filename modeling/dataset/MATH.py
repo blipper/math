@@ -11,6 +11,7 @@ import logging
 import io
 import random
 import numpy as np
+import re
 
 from dataset.util import last_boxed_only, _clean_numbers, last_boxed_only_string, only_until_first_boxed_from_tokens
 
